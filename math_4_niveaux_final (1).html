@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math avec Audio - 4 Niveaux Complets</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        .audio-instruction {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .audio-instruction:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .level-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .level-btn {
+            padding: 20px;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            color: #2c3e50;
+            text-align: center;
+        }
+        .level-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .level-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        .level-title {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+        .level-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .activity-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            display: none;
+        }
+        .activity-card.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .problem-display {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 3px solid #667eea;
+            text-align: center;
+        }
+        .problem-equation {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .operation-symbol {
+            color: #667eea;
+        }
+        .big-audio-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .big-audio-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .step-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid #11998e;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .step-title-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        .step-number {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .step-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .audio-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .audio-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .manipulatives-area {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        .number-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            min-width: 200px;
+        }
+        .number-label {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .blocks-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .block-type {
+            text-align: center;
+        }
+        .block-type-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #7f8c8d;
+        }
+        .blocks-display {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+        .ten-block {
+            width: 120px;
+            height: 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 6px;
+            border: 2px solid #d63384;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 5px;
+        }
+        .ten-square {
+            width: 8px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 2px;
+        }
+        .unit-blocks-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 300px;
+        }
+        .unit-block {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            border: 2px solid #4c51bf;
+        }
+        .input-section {
+            margin-top: 25px;
+            text-align: center;
+        }
+        .input-with-audio {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .input-label {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .small-audio-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+        .small-audio-btn:hover {
+            transform: scale(1.1);
+        }
+        .answer-input-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .digit-input {
+            width: 100px;
+            height: 100px;
+            font-size: 3em;
+            text-align: center;
+            border: 4px solid #ddd;
+            border-radius: 15px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .digit-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+        .digit-input.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .digit-input.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        .check-btn {
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .check-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .next-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #28a745;
+        }
+        .feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 3px solid #dc3545;
+        }
+        .progress-container {
+            margin-bottom: 25px;
+        }
+        .progress {
+            background: #ecf0f1;
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .reset-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .reset-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .hint-box {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #856404;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .hint-audio-btn {
+            background: #ffc107;
+            color: #856404;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .hint-audio-btn:hover {
+            transform: scale(1.1);
+        }
+        .exchange-box {
+            background: #e7f3ff;
+            border: 3px dashed #667eea;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .exchange-step {
+            font-size: 1.3em;
+            margin: 15px 0;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 2em; }
+            .problem-equation { font-size: 2em; }
+            .digit-input { width: 80px; height: 80px; font-size: 2.5em; }
+            .step-title { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Addition et Soustraction 🎯</h1>
+        <p class="subtitle">Toutes les consignes sont en audio - Clique sur 🔊!</p>
+
+        <div class="audio-instruction" data-audio="Bienvenue! Clique sur tous les boutons violets pour écouter les consignes. Tu n'as pas besoin de savoir lire. C'est facile!" onclick="speak(this.dataset.audio)">
+            🔊 CLIQUE ICI pour apprendre comment ça marche! 🔊
+        </div>
+
+        <div class="level-selector">
+            <button class="level-btn active" onclick="selectLevel(1)">
+                <div class="level-title">Niveau 1 🌟</div>
+                <div class="level-description">Addition SANS échange</div>
+            </button>
+            <button class="level-btn" onclick="selectLevel(2)">
+                <div class="level-title">Niveau 2 🌟🌟</div>
+                <div class="level-description">Soustraction SANS échange</div>
+            </button>
+            <button class="level-btn" onclick="selectLevel(3)">
+                <div class="level-title">Niveau 3 🌟🌟🌟</div>
+                <div class="level-description">Addition AVEC échange</div>
+            </button>
+            <button class="level-btn" onclick="selectLevel(4)">
+                <div class="level-title">Niveau 4 🌟🌟🌟🌟</div>
+                <div class="level-description">Soustraction AVEC échange</div>
+            </button>
+        </div>
+
+        <!-- Les 4 niveaux seront créés dynamiquement par JavaScript -->
+        <div id="levelContainer"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script>
+// Configuration des problèmes
+const config = {
+    1: {
+        title: "Addition SANS échange",
+        operation: "+",
+        problems: [
+            {num1: 34, num2: 25}, {num1: 52, num2: 13}, {num1: 41, num2: 32},
+            {num1: 23, num2: 45}, {num1: 61, num2: 17}, {num1: 32, num2: 54}
+        ],
+        steps: [
+            {
+                title: "Représente les nombres",
+                audioInstruction: "Étape 1. Représente les deux nombres avec les blocs. Observe bien les grandes barres roses pour les dizaines et les petits cubes violets pour les unités.",
+                type: "visual",
+                showBothNumbers: true
+            },
+            {
+                title: "Additionne les UNITÉS",
+                audioInstruction: "Étape 2. Additionne les unités. Compte toutes les petites unités violettes ensemble pour trouver le total.",
+                type: "units",
+                questionAudio: "Combien d'unités en tout? Compte bien toutes les unités ensemble."
+            },
+            {
+                title: "Additionne les DIZAINES",
+                audioInstruction: "Étape 3. Additionne les dizaines. Compte toutes les grandes barres roses ensemble pour trouver le total.",
+                type: "tens",
+                questionAudio: "Combien de dizaines en tout? Compte bien toutes les dizaines ensemble."
+            },
+            {
+                title: "Écris la réponse complète",
+                audioInstruction: "Étape 4. Écris la réponse finale. Combine les dizaines et les unités pour former ton nombre complet.",
+                type: "final",
+                questionAudio: "Quelle est la réponse finale? Écris le nombre complet."
+            }
+        ]
+    },
+    2: {
+        title: "Soustraction SANS échange",
+        operation: "−",
+        problems: [
+            {num1: 78, num2: 35}, {num1: 69, num2: 24}, {num1: 87, num2: 43},
+            {num1: 59, num2: 32}, {num1: 96, num2: 54}, {num1: 75, num2: 21}
+        ],
+        steps: [
+            {
+                title: "Représente le premier nombre",
+                audioInstruction: "Étape 1. Représente le premier nombre avec les blocs. Tu vas enlever des blocs de ce nombre.",
+                type: "visual",
+                showBothNumbers: false,
+                hint: "Tu vas enlever des blocs. Prépare-toi!"
+            },
+            {
+                title: "Soustrais les UNITÉS",
+                audioInstruction: "Étape 2. Soustrais les unités. Enlève le nombre d'unités demandé et compte ce qui reste.",
+                type: "units",
+                questionAudio: "Combien d'unités reste-t-il après avoir enlevé les unités?"
+            },
+            {
+                title: "Soustrais les DIZAINES",
+                audioInstruction: "Étape 3. Soustrais les dizaines. Enlève le nombre de dizaines demandé et compte ce qui reste.",
+                type: "tens",
+                questionAudio: "Combien de dizaines reste-t-il après avoir enlevé les dizaines?"
+            },
+            {
+                title: "Écris la réponse complète",
+                audioInstruction: "Étape 4. Écris la réponse finale. Combine les dizaines et les unités qui restent.",
+                type: "final",
+                questionAudio: "Quelle est la réponse finale?"
+            }
+        ]
+    },
+    3: {
+        title: "Addition AVEC échange",
+        operation: "+",
+        problems: [
+            {num1: 47, num2: 28}, {num1: 36, num2: 57}, {num1: 58, num2: 24},
+            {num1: 49, num2: 35}, {num1: 27, num2: 66}, {num1: 38, num2: 47}
+        ],
+        steps: [
+            {
+                title: "Représente les nombres",
+                audioInstruction: "Étape 1. Représente les deux nombres. Attention! Tu auras besoin de faire un échange car tu auras plus de 10 unités!",
+                type: "visual",
+                showBothNumbers: true,
+                hint: "Attention! Tu auras plus de 10 unités!"
+            },
+            {
+                title: "Additionne les UNITÉS",
+                audioInstruction: "Étape 2. Additionne les unités. Tu en auras plus que 10!",
+                type: "units-total",
+                questionAudio: "Combien d'unités en tout? Tu en auras plus que 10."
+            },
+            {
+                title: "Fais l'ÉCHANGE",
+                audioInstruction: "Étape 3. Fais l'échange. Transforme 10 unités en 1 dizaine. Compte combien d'unités il te reste.",
+                type: "exchange",
+                questionAudio: "Après l'échange de 10 unités en 1 dizaine, combien d'unités reste-t-il?"
+            },
+            {
+                title: "Additionne les DIZAINES",
+                audioInstruction: "Étape 4. Additionne les dizaines. N'oublie pas d'ajouter la dizaine de l'échange!",
+                type: "tens",
+                questionAudio: "Combien de dizaines en tout? N'oublie pas la dizaine de l'échange!"
+            },
+            {
+                title: "Écris la réponse complète",
+                audioInstruction: "Étape 5. Écris la réponse finale. Le petit 1 au-dessus montre la dizaine de l'échange.",
+                type: "final",
+                questionAudio: "Quelle est la réponse finale?"
+            }
+        ]
+    },
+    4: {
+        title: "Soustraction AVEC échange",
+        operation: "−",
+        problems: [
+            {num1: 62, num2: 38}, {num1: 53, num2: 27}, {num1: 71, num2: 46},
+            {num1: 84, num2: 59}, {num1: 65, num2: 37}, {num1: 92, num2: 48}
+        ],
+        steps: [
+            {
+                title: "Représente le premier nombre",
+                audioInstruction: "Étape 1. Représente le premier nombre. Attention! Tu n'auras pas assez d'unités, tu devras emprunter!",
+                type: "visual",
+                showBothNumbers: false,
+                hint: "Tu n'auras pas assez d'unités!"
+            },
+            {
+                title: "Identifie le problème",
+                audioInstruction: "Étape 2. Est-ce que tu peux soustraire les unités? Non! Tu dois emprunter une dizaine.",
+                type: "problem",
+                questionAudio: "Tu n'as pas assez d'unités. Tu dois emprunter!"
+            },
+            {
+                title: "Fais l'ÉCHANGE (emprunte)",
+                audioInstruction: "Étape 3. Fais l'échange. Transforme 1 dizaine en 10 unités.",
+                type: "borrow",
+                questionAudio: "Après avoir transformé 1 dizaine en 10 unités, combien as-tu de dizaines et d'unités?"
+            },
+            {
+                title: "Soustrais les UNITÉS",
+                audioInstruction: "Étape 4. Maintenant soustrais les unités. Tu as maintenant assez d'unités!",
+                type: "units",
+                questionAudio: "Combien d'unités reste-t-il?"
+            },
+            {
+                title: "Soustrais les DIZAINES",
+                audioInstruction: "Étape 5. Soustrais les dizaines. Tu as une dizaine de moins à cause de l'échange.",
+                type: "tens",
+                questionAudio: "Combien de dizaines reste-t-il?"
+            },
+            {
+                title: "Écris la réponse complète",
+                audioInstruction: "Étape 6. Écris la réponse finale. Les petits chiffres montrent l'échange.",
+                type: "final",
+                questionAudio: "Quelle est la réponse finale?"
+            }
+        ]
+    }
+};
+
+// État global
+let state = {
+    currentLevel: 1,
+    currentProblemIndex: {1: 0, 2: 0, 3: 0, 4: 0},
+    currentStep: {1: 0, 2: 0, 3: 0, 4: 0},
+    scores: {1: 0, 2: 0, 3: 0, 4: 0}
+};
+
+// Fonctions audio
+function speak(text, rate = 0.85) {
+    if (speechSynthesis.speaking) speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'fr-FR';
+    utterance.rate = rate;
+    utterance.pitch = 1;
+    speechSynthesis.speak(utterance);
+}
+
+// Échapper les apostrophes pour onclick
+function escapeForOnclick(text) {
+    return text.replace(/'/g, "\\'");
+}
+
+// Utilitaires blocs
+function createTenBlock() {
+    const block = document.createElement('div');
+    block.className = 'ten-block';
+    for (let i = 0; i < 10; i++) {
+        const sq = document.createElement('div');
+        sq.className = 'ten-square';
+        block.appendChild(sq);
+    }
+    return block;
+}
+
+function createUnitBlock() {
+    const block = document.createElement('div');
+    block.className = 'unit-block';
+    return block;
+}
+
+// Sélection niveau
+function selectLevel(level) {
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+    event.target.closest('.level-btn').classList.add('active');
+    
+    state.currentLevel = level;
+    renderLevel(level);
+    
+    if (speechSynthesis.speaking) speechSynthesis.cancel();
+}
+
+// Rendu niveau
+function renderLevel(level) {
+    const container = document.getElementById('levelContainer');
+    const cfg = config[level];
+    const prob = cfg.problems[state.currentProblemIndex[level]];
+    const currentStepIndex = state.currentStep[level];
+    
+    let html = `
+        <div class="activity-card active">
+            <div class="progress-container">
+                <div class="progress">
+                    <div class="progress-bar" style="width: ${(currentStepIndex / cfg.steps.length) * 100}%">
+                        ${Math.round((currentStepIndex / cfg.steps.length) * 100)}%
+                    </div>
+                </div>
+                <div class="score-display">Score: ${state.scores[level]}/${cfg.steps.length}</div>
+            </div>
+            
+            <div class="problem-display">
+                <div class="problem-equation">
+                    ${prob.num1} <span class="operation-symbol">${cfg.operation}</span> ${prob.num2} = ?
+                </div>
+                <button class="big-audio-btn" onclick="readProblem(${level})">
+                    🔊 Écouter le problème
+                </button>
+            </div>
+    `;
+    
+    // Rendu des étapes
+    cfg.steps.forEach((step, idx) => {
+        const isCurrentStep = idx === currentStepIndex;
+        const display = isCurrentStep ? 'block' : 'none';
+        
+        html += `
+            <div class="step-container" style="display: ${display}" id="step-${level}-${idx}">
+                <div class="step-header">
+                    <div class="step-title-group">
+                        <div class="step-number">${idx + 1}</div>
+                        <div class="step-title">${step.title}</div>
+                    </div>
+                    <button class="audio-btn" data-audio="${step.audioInstruction.replace(/"/g, '&quot;')}" onclick="speak(this.dataset.audio)">🔊</button>
+                </div>
+                
+                ${renderStepContent(level, idx, step, prob)}
+            </div>
+        `;
+    });
+    
+    html += `<button class="reset-btn" onclick="resetLevel(${level})">🔄 Nouveau problème</button></div>`;
+    container.innerHTML = html;
+    
+    // Dessiner les blocs après rendu
+    setTimeout(() => drawBlocks(level, currentStepIndex), 100);
+}
+
+// Rendu contenu étape
+function renderStepContent(level, stepIdx, step, prob) {
+    const tens1 = Math.floor(prob.num1 / 10);
+    const units1 = prob.num1 % 10;
+    const tens2 = Math.floor(prob.num2 / 10);
+    const units2 = prob.num2 % 10;
+    
+    let html = '';
+    
+    if (step.type === 'visual') {
+        html += `
+            <div class="manipulatives-area">
+                <div class="number-section">
+                    <div class="number-label">Premier nombre: ${prob.num1}</div>
+                    <div class="blocks-container">
+                        <div class="block-type">
+                            <div class="block-type-label">Dizaines</div>
+                            <div class="blocks-display" id="tens1-${level}-${stepIdx}"></div>
+                        </div>
+                        <div class="block-type">
+                            <div class="block-type-label">Unités</div>
+                            <div class="unit-blocks-row" id="units1-${level}-${stepIdx}"></div>
+                        </div>
+                    </div>
+                </div>
+                ${step.showBothNumbers ? `
+                    <div class="number-section">
+                        <div class="number-label">Deuxième nombre: ${prob.num2}</div>
+                        <div class="blocks-container">
+                            <div class="block-type">
+                                <div class="block-type-label">Dizaines</div>
+                                <div class="blocks-display" id="tens2-${level}-${stepIdx}"></div>
+                            </div>
+                            <div class="block-type">
+                                <div class="block-type-label">Unités</div>
+                                <div class="unit-blocks-row" id="units2-${level}-${stepIdx}"></div>
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+            ${step.hint ? `
+                <div class="hint-box">
+                    <button class="hint-audio-btn" data-audio="${step.hint.replace(/"/g, '&quot;')}" onclick="speak(this.dataset.audio)">🔊</button>
+                    <span>💡 ${step.hint}</span>
+                </div>
+            ` : ''}
+            <div class="input-section">
+                <button class="check-btn next-btn" onclick="nextStep(${level})">Suivant ➡️</button>
+            </div>
+        `;
+    } else if (step.type === 'units' || step.type === 'tens' || step.type === 'units-total' || step.type === 'final') {
+        // Afficher les blocs pour que l'élève puisse compter
+        if (step.type === 'units' || step.type === 'units-total') {
+            // Montrer les unités à additionner/soustraire
+            if (level === 1 || level === 3) {
+                // Addition: montrer les deux groupes d'unités
+                html += `
+                    <div class="manipulatives-area">
+                        <div class="number-section">
+                            <div class="number-label">${units1} unités + ${units2} unités</div>
+                            <div class="blocks-container">
+                                <div class="block-type">
+                                    <div class="block-type-label">${units1} unités</div>
+                                    <div class="unit-blocks-row" id="units1-step-${level}-${stepIdx}"></div>
+                                </div>
+                                <div style="font-size: 2em; padding: 0 10px;">+</div>
+                                <div class="block-type">
+                                    <div class="block-type-label">${units2} unités</div>
+                                    <div class="unit-blocks-row" id="units2-step-${level}-${stepIdx}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Soustraction: montrer les unités à enlever
+                html += `
+                    <div class="manipulatives-area">
+                        <div class="number-section">
+                            <div class="number-label">Enlève ${units2} unités de ${level === 4 ? units1 + 10 : units1}</div>
+                            <div class="blocks-container">
+                                <div class="block-type">
+                                    <div class="unit-blocks-row" id="units-subtract-${level}-${stepIdx}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        } else if (step.type === 'tens') {
+            // Montrer les dizaines à additionner/soustraire
+            if (level === 1 || level === 3) {
+                // Addition: montrer les deux groupes de dizaines
+                const carryNote = level === 3 ? '<div style="color: #28a745; font-weight: bold; margin-top: 10px;">+ 1 dizaine de l\'échange!</div>' : '';
+                html += `
+                    <div class="manipulatives-area">
+                        <div class="number-section">
+                            <div class="number-label">${tens1} dizaines + ${tens2} dizaines ${level === 3 ? '+ 1' : ''}</div>
+                            <div class="blocks-container">
+                                <div class="block-type">
+                                    <div class="block-type-label">${tens1} dizaines</div>
+                                    <div class="blocks-display" id="tens1-step-${level}-${stepIdx}"></div>
+                                </div>
+                                <div style="font-size: 2em; padding: 0 10px;">+</div>
+                                <div class="block-type">
+                                    <div class="block-type-label">${tens2} dizaines</div>
+                                    <div class="blocks-display" id="tens2-step-${level}-${stepIdx}"></div>
+                                </div>
+                            </div>
+                            ${carryNote}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Soustraction: montrer les dizaines à enlever
+                const actualTens = level === 4 ? tens1 - 1 : tens1;
+                html += `
+                    <div class="manipulatives-area">
+                        <div class="number-section">
+                            <div class="number-label">Enlève ${tens2} dizaines de ${actualTens}</div>
+                            <div class="blocks-container">
+                                <div class="block-type">
+                                    <div class="blocks-display" id="tens-subtract-${level}-${stepIdx}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        html += `
+            <div class="input-section">
+                <div class="input-with-audio">
+                    <div class="input-label">
+                        ${step.type === 'units' || step.type === 'units-total' ? 'Unités' : step.type === 'tens' ? 'Dizaines' : 'Réponse'}
+                        <button class="small-audio-btn" data-audio="${step.questionAudio.replace(/"/g, '&quot;')}" onclick="speak(this.dataset.audio)">🔊</button>
+                    </div>
+                </div>
+                <div class="answer-input-group">
+                    <input type="number" class="digit-input" id="answer-${level}-${stepIdx}" 
+                           min="0" max="${step.type === 'final' ? 99 : step.type === 'units-total' ? 18 : 9}">
+                    <button class="check-btn" onclick="checkAnswer(${level}, ${stepIdx})">Vérifier ✓</button>
+                </div>
+                <div class="feedback" id="feedback-${level}-${stepIdx}"></div>
+            </div>
+        `;
+    } else if (step.type === 'exchange') {
+        const totalUnits = units1 + units2;
+        html += `
+            <div class="exchange-box">
+                <div class="exchange-step">Tu as ${totalUnits} unités</div>
+                <div class="exchange-step" style="font-size: 2em;">⬇️</div>
+                <div class="exchange-step">Échange 10 unités en 1 dizaine</div>
+                <div class="exchange-step" style="font-size: 2em;">⬇️</div>
+                <div class="exchange-step">Il reste ? unités</div>
+            </div>
+            <div class="input-section">
+                <div class="input-with-audio">
+                    <div class="input-label">
+                        Unités restantes
+                        <button class="small-audio-btn" data-audio="${step.questionAudio.replace(/"/g, '&quot;')}" onclick="speak(this.dataset.audio)">🔊</button>
+                    </div>
+                </div>
+                <div class="answer-input-group">
+                    <input type="number" class="digit-input" id="answer-${level}-${stepIdx}" min="0" max="9">
+                    <button class="check-btn" onclick="checkAnswer(${level}, ${stepIdx})">Vérifier ✓</button>
+                </div>
+                <div class="feedback" id="feedback-${level}-${stepIdx}"></div>
+            </div>
+        `;
+    } else if (step.type === 'problem') {
+        html += `
+            <div style="text-align: center; font-size: 1.5em; margin: 30px 0; color: #2c3e50;">
+                Tu as ${units1} unités<br>
+                Tu dois enlever ${units2} unités<br><br>
+                <span style="font-size: 1.2em;">🤔 ${units1} &lt; ${units2} ❌</span>
+            </div>
+            <div class="hint-box">
+                <button class="hint-audio-btn" data-audio="Tu dois emprunter une dizaine!" onclick="speak(this.dataset.audio)">🔊</button>
+                <span>💡 Tu dois emprunter une dizaine!</span>
+            </div>
+            <div class="input-section">
+                <button class="check-btn next-btn" onclick="nextStep(${level})">Faire l'échange ➡️</button>
+            </div>
+        `;
+    } else if (step.type === 'borrow') {
+        html += `
+            <div class="exchange-box">
+                <div class="exchange-step">AVANT: ${tens1} dizaines et ${units1} unités</div>
+                <div class="exchange-step" style="font-size: 2em;">⬇️</div>
+                <div class="exchange-step">Transforme 1 dizaine en 10 unités</div>
+                <div class="exchange-step" style="font-size: 2em;">⬇️</div>
+                <div class="exchange-step">APRÈS: ? dizaines et ? unités</div>
+            </div>
+            <div class="input-section">
+                <div class="input-with-audio">
+                    <div class="input-label">
+                        Dizaines après échange
+                        <button class="small-audio-btn" data-audio="${step.questionAudio.replace(/"/g, '&quot;')}" onclick="speak(this.dataset.audio)">🔊</button>
+                    </div>
+                </div>
+                <div class="answer-input-group">
+                    <input type="number" class="digit-input" id="answer-tens-${level}-${stepIdx}" min="0" max="9" style="width: 90px;">
+                </div>
+                <div class="input-with-audio" style="margin-top: 20px;">
+                    <div class="input-label">Unités après échange</div>
+                </div>
+                <div class="answer-input-group">
+                    <input type="number" class="digit-input" id="answer-units-${level}-${stepIdx}" min="10" max="19" style="width: 90px;">
+                    <button class="check-btn" onclick="checkBorrow(${level}, ${stepIdx})">Vérifier ✓</button>
+                </div>
+                <div class="feedback" id="feedback-${level}-${stepIdx}"></div>
+            </div>
+        `;
+    }
+    
+    return html;
+}
+
+// Dessiner les blocs
+function drawBlocks(level, stepIdx) {
+    const prob = config[level].problems[state.currentProblemIndex[level]];
+    const tens1 = Math.floor(prob.num1 / 10);
+    const units1 = prob.num1 % 10;
+    const tens2 = Math.floor(prob.num2 / 10);
+    const units2 = prob.num2 % 10;
+    const step = config[level].steps[stepIdx];
+    
+    // Étape visuelle - premier écran avec les deux nombres
+    const tens1El = document.getElementById(`tens1-${level}-${stepIdx}`);
+    const units1El = document.getElementById(`units1-${level}-${stepIdx}`);
+    
+    if (tens1El) {
+        tens1El.innerHTML = '';
+        for (let i = 0; i < tens1; i++) tens1El.appendChild(createTenBlock());
+    }
+    
+    if (units1El) {
+        units1El.innerHTML = '';
+        for (let i = 0; i < units1; i++) units1El.appendChild(createUnitBlock());
+    }
+    
+    const tens2El = document.getElementById(`tens2-${level}-${stepIdx}`);
+    const units2El = document.getElementById(`units2-${level}-${stepIdx}`);
+    
+    if (tens2El) {
+        tens2El.innerHTML = '';
+        for (let i = 0; i < tens2; i++) tens2El.appendChild(createTenBlock());
+    }
+    
+    if (units2El) {
+        units2El.innerHTML = '';
+        for (let i = 0; i < units2; i++) units2El.appendChild(createUnitBlock());
+    }
+    
+    // Étapes de calcul - montrer les blocs pour compter
+    // Unités pour addition
+    const units1StepEl = document.getElementById(`units1-step-${level}-${stepIdx}`);
+    if (units1StepEl) {
+        units1StepEl.innerHTML = '';
+        for (let i = 0; i < units1; i++) units1StepEl.appendChild(createUnitBlock());
+    }
+    
+    const units2StepEl = document.getElementById(`units2-step-${level}-${stepIdx}`);
+    if (units2StepEl) {
+        units2StepEl.innerHTML = '';
+        for (let i = 0; i < units2; i++) units2StepEl.appendChild(createUnitBlock());
+    }
+    
+    // Dizaines pour addition
+    const tens1StepEl = document.getElementById(`tens1-step-${level}-${stepIdx}`);
+    if (tens1StepEl) {
+        tens1StepEl.innerHTML = '';
+        for (let i = 0; i < tens1; i++) tens1StepEl.appendChild(createTenBlock());
+    }
+    
+    const tens2StepEl = document.getElementById(`tens2-step-${level}-${stepIdx}`);
+    if (tens2StepEl) {
+        tens2StepEl.innerHTML = '';
+        for (let i = 0; i < tens2; i++) tens2StepEl.appendChild(createTenBlock());
+    }
+    
+    // Unités pour soustraction - montrer avec certaines barrées
+    const unitsSubtractEl = document.getElementById(`units-subtract-${level}-${stepIdx}`);
+    if (unitsSubtractEl) {
+        unitsSubtractEl.innerHTML = '';
+        const totalUnits = level === 4 ? units1 + 10 : units1;
+        for (let i = 0; i < totalUnits; i++) {
+            const block = createUnitBlock();
+            if (i < units2) {
+                block.style.opacity = '0.3';
+                block.style.border = '2px dashed #dc3545';
+            }
+            unitsSubtractEl.appendChild(block);
+        }
+    }
+    
+    // Dizaines pour soustraction - montrer avec certaines barrées
+    const tensSubtractEl = document.getElementById(`tens-subtract-${level}-${stepIdx}`);
+    if (tensSubtractEl) {
+        tensSubtractEl.innerHTML = '';
+        const totalTens = level === 4 ? tens1 - 1 : tens1;
+        for (let i = 0; i < totalTens; i++) {
+            const block = createTenBlock();
+            if (i < tens2) {
+                block.style.opacity = '0.3';
+                block.style.border = '2px dashed #dc3545';
+            }
+            tensSubtractEl.appendChild(block);
+        }
+    }
+}
+
+// Lire problème
+function readProblem(level) {
+    const prob = config[level].problems[state.currentProblemIndex[level]];
+    const op = config[level].operation === '+' ? 'plus' : 'moins';
+    speak(`Le problème est: ${prob.num1} ${op} ${prob.num2}. ${config[level].title}.`);
+}
+
+// Étape suivante
+function nextStep(level) {
+    state.currentStep[level]++;
+    renderLevel(level);
+}
+
+// Vérifier réponse
+function checkAnswer(level, stepIdx) {
+    const prob = config[level].problems[state.currentProblemIndex[level]];
+    const cfg = config[level];
+    const step = cfg.steps[stepIdx];
+    
+    const input = document.getElementById(`answer-${level}-${stepIdx}`);
+    const userAnswer = parseInt(input.value);
+    const feedback = document.getElementById(`feedback-${level}-${stepIdx}`);
+    
+    let correctAnswer;
+    const tens1 = Math.floor(prob.num1 / 10);
+    const units1 = prob.num1 % 10;
+    const tens2 = Math.floor(prob.num2 / 10);
+    const units2 = prob.num2 % 10;
+    
+    if (step.type === 'units') {
+        if (cfg.operation === '+') {
+            correctAnswer = units1 + units2;
+        } else {
+            if (level === 4) {
+                const newUnits = units1 + 10;
+                correctAnswer = newUnits - units2;
+            } else {
+                correctAnswer = units1 - units2;
+            }
+        }
+    } else if (step.type === 'units-total') {
+        correctAnswer = units1 + units2;
+    } else if (step.type === 'tens') {
+        if (cfg.operation === '+') {
+            const carry = (level === 3 && units1 + units2 >= 10) ? 1 : 0;
+            correctAnswer = tens1 + tens2 + carry;
+        } else {
+            if (level === 4) {
+                const newTens = tens1 - 1;
+                correctAnswer = newTens - tens2;
+            } else {
+                correctAnswer = tens1 - tens2;
+            }
+        }
+    } else if (step.type === 'exchange') {
+        const totalUnits = units1 + units2;
+        correctAnswer = totalUnits - 10;
+    } else if (step.type === 'final') {
+        correctAnswer = cfg.operation === '+' ? prob.num1 + prob.num2 : prob.num1 - prob.num2;
+    }
+    
+    if (userAnswer === correctAnswer) {
+        feedback.textContent = '✅ Excellent! C\'est la bonne réponse!';
+        feedback.className = 'feedback success show';
+        input.classList.add('correct');
+        input.disabled = true;
+        state.scores[level]++;
+        speak('Excellent! C\'est la bonne réponse! Tu passes à l\'étape suivante.', 0.9);
+        
+        setTimeout(() => {
+            if (stepIdx < cfg.steps.length - 1) {
+                nextStep(level);
+            } else {
+                alert(`🎉 Bravo! Tu as terminé!\n\nScore: ${state.scores[level]}/${cfg.steps.length}`);
+            }
+        }, 2000);
+    } else {
+        feedback.textContent = '❌ Pas tout à fait. Essaie encore!';
+        feedback.className = 'feedback error show';
+        input.classList.add('incorrect');
+        speak('Ce n\'est pas la bonne réponse. Recompte bien et essaie encore.', 0.85);
+        setTimeout(() => {
+            input.classList.remove('incorrect');
+            input.value = '';
+            feedback.classList.remove('show');
+        }, 2500);
+    }
+}
+
+// Vérifier emprunt
+function checkBorrow(level, stepIdx) {
+    const prob = config[level].problems[state.currentProblemIndex[level]];
+    const tens1 = Math.floor(prob.num1 / 10);
+    const units1 = prob.num1 % 10;
+    
+    const inputTens = document.getElementById(`answer-tens-${level}-${stepIdx}`);
+    const inputUnits = document.getElementById(`answer-units-${level}-${stepIdx}`);
+    const userTens = parseInt(inputTens.value);
+    const userUnits = parseInt(inputUnits.value);
+    const feedback = document.getElementById(`feedback-${level}-${stepIdx}`);
+    
+    const correctTens = tens1 - 1;
+    const correctUnits = units1 + 10;
+    
+    if (userTens === correctTens && userUnits === correctUnits) {
+        feedback.textContent = `✅ Super! ${tens1} - 1 = ${correctTens} dizaines et ${units1} + 10 = ${correctUnits} unités!`;
+        feedback.className = 'feedback success show';
+        inputTens.classList.add('correct');
+        inputUnits.classList.add('correct');
+        inputTens.disabled = true;
+        inputUnits.disabled = true;
+        state.scores[level]++;
+        speak('Super! C\'est exact! Tu passes à l\'étape suivante.', 0.9);
+        
+        setTimeout(() => nextStep(level), 2000);
+    } else {
+        feedback.textContent = '❌ Vérifie ton calcul. Essaie encore!';
+        feedback.className = 'feedback error show';
+        inputTens.classList.add('incorrect');
+        inputUnits.classList.add('incorrect');
+        speak('Ce n\'est pas la bonne réponse. Réfléchis bien à l\'échange et essaie encore.', 0.85);
+        setTimeout(() => {
+            inputTens.classList.remove('incorrect');
+            inputUnits.classList.remove('incorrect');
+            inputTens.value = '';
+            inputUnits.value = '';
+            feedback.classList.remove('show');
+        }, 2500);
+    }
+}
+
+// Reset niveau
+function resetLevel(level) {
+    state.currentProblemIndex[level] = (state.currentProblemIndex[level] + 1) % config[level].problems.length;
+    state.currentStep[level] = 0;
+    state.scores[level] = 0;
+    renderLevel(level);
+    speak('Nouveau problème! Clique sur le bouton pour écouter.', 0.9);
+}
+
+// Empêcher caractères non-numériques
+document.addEventListener('input', (e) => {
+    if (e.target.classList.contains('digit-input')) {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    }
+});
+
+// Initialisation
+renderLevel(1);
+    </script>
+</body>
+</html>
